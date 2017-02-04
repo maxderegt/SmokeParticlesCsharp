@@ -64,11 +64,14 @@ namespace drawing
                     {
                         if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size, part.Size);
+                            part.Draw(e);
                         }
                     }
                     // Remove all particles where the alpha is below 0
                    Particles.RemoveAll(part => part.A < 0);
+
+                    // Remove all particles when the particle leaves the screen
+                    Particles.RemoveAll(part => part.X > Width+part.Size || part.Y+part.Size < 0);
                 }
             }
 
@@ -134,6 +137,11 @@ namespace drawing
             {
                 Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
             }
+        }
+
+        public void Draw(PaintEventArgs e)
+        {
+            e.Graphics.FillEllipse(Brush, (float)X, (float)Y, Size, Size);
         }
 
     }
