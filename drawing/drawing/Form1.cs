@@ -12,7 +12,8 @@ namespace drawing
     {
         // List containing every particle on screen
         private List<Particle> Particles { get; set; } = new List<Particle>();
-        private bool _spawn = false;
+        private bool _spawn;
+        private int _size = 6;
 
         public Form1()
         {
@@ -39,7 +40,7 @@ namespace drawing
             if (_spawn)
             {
                 lock (Particles)
-                    for (var i = 0; i < 1; i++)
+                    for (var i = 0; i < 5; i++)
                         Particles.Add(new Particle(this.Width/2,this.Height/2));
             }
             lock (Particles)
@@ -49,20 +50,19 @@ namespace drawing
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //Anti-aliasing
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-
+            // draws the text with the amount of particle's currently visible
             e.Graphics.DrawString("number of particle's " + Particles.Count, new Font("Arial", 10), Brushes.Black, 10,
                 10);
 
-            if (Particles.Any())
+            // draws every particle which is visible
+            lock (Particles)if (Particles.Any())
             {
                 lock (Particles)
                     foreach (var part in Particles)
                     {
                         if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, 4, 4);
+                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, _size,_size);
                         }
                     }
                 lock (Particles)
@@ -105,8 +105,8 @@ namespace drawing
             A = 255;
             var rdm = new Random();
 
-            _xd = rdm.Next(0, 100);
-            _yd = rdm.Next(0, 100);
+            _xd = rdm.Next(50, 100) / 500f;
+            _yd = rdm.Next(100, 200) / 400f;
 
             _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
             Brush = new SolidBrush(_color);
@@ -115,9 +115,9 @@ namespace drawing
 
         public void Update()
         {
-            X += _xd/500;
-            Y -= _yd/400;
-            A -= 5;
+            X += _xd;
+            Y -= _yd;
+            A -= 2;
             if (A >= 0)
             Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
         }
