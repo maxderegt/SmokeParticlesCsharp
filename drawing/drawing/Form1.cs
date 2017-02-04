@@ -36,13 +36,14 @@ namespace drawing
         /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
-
+            // Spawn particles, if the button/switch has been pressed
             if (_spawn)
             {
                 lock (Particles)
-                    for (var i = 0; i < 5; i++)
-                        Particles.Add(new Particle(this.Width/2,this.Height/2));
+                    for (var i = 0; i < 1; i++)
+                        Particles.Add(new Particle(Width/2, Height/2));
             }
+            // Update all the particles
             lock (Particles)
                 foreach (var part in Particles) part.Update();
             
@@ -54,9 +55,10 @@ namespace drawing
             e.Graphics.DrawString("number of particle's " + Particles.Count, new Font("Arial", 10), Brushes.Black, 10,
                 10);
 
-            // draws every particle which is visible
-            lock (Particles)if (Particles.Any())
+            // if the particles list has any particles
+            if (Particles.Any())
             {
+                // Draw every particle
                 lock (Particles)
                     foreach (var part in Particles)
                     {
@@ -65,9 +67,11 @@ namespace drawing
                             e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, _size,_size);
                         }
                     }
+                // Remove all particles where the alpha is below 0
                 lock (Particles)
                     Particles.RemoveAll(part => part.A < 0);
             }
+            // Update/Refresh the form
             Invalidate();
             Update();
         }
@@ -112,14 +116,19 @@ namespace drawing
             Brush = new SolidBrush(_color);
         }
 
-
+        /// <summary>
+        /// Update the particle with a new delta x and y.
+        /// Also give the particle a new alpha.
+        /// </summary>
         public void Update()
         {
             X += _xd;
             Y -= _yd;
             A -= 2;
             if (A >= 0)
-            Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
+            {
+                Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
+            }
         }
 
     }
