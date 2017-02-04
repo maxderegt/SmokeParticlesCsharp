@@ -40,7 +40,7 @@ namespace drawing
             {
                 lock (Particles)
                     for (var i = 0; i < 1; i++)
-                        Particles.Add(new Particle(Width/2, Height/2,8));
+                        Particles.Add(new Particle(Width/2, Height/2,10));
             }
             // Update all the particles
             lock (Particles)
@@ -103,6 +103,7 @@ namespace drawing
         /// </summary>
         /// <param name="x">The starting position on the x-axis</param>
         /// <param name="y">The starting position on the y-axis</param>
+        /// <param name="size">The size of the particle</param>
         public Particle(int x, int y, int size)
         {
             X = x;
@@ -111,8 +112,8 @@ namespace drawing
             Size = size;
             var rdm = new Random();
 
-            _xd = rdm.Next(50, 100) / 500f;
-            _yd = rdm.Next(100, 200) / 400f;
+            _xd = rdm.Next(100, 500) / 500f;
+            _yd = rdm.Next(300, 400) / 400f;
 
             _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
             Brush = new SolidBrush(_color);
@@ -124,9 +125,9 @@ namespace drawing
         /// </summary>
         public void Update()
         {
-            X += _xd;
-            Y -= _yd;
-            A -= 2;
+            X += (_xd + 0.5);
+            Y -= (_yd);
+            A -= 1;
             if (A >= 0)
             {
                 Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
