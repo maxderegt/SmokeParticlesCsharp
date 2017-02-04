@@ -28,7 +28,7 @@ namespace drawing
             if (spawn)
             {
                 lock (particles)
-                    for (int i = 0; i < 1; i++)
+                    for (int i = 0; i < 10; i++)
                         particles.Add(new particle(this.Width/2,this.Height/2));
             }
             lock (particles)
@@ -98,8 +98,8 @@ namespace drawing
             this.y = y;
             this.a = 255;
             Random rdm = new Random();
-            xd = rdm.Next(0, 100);
-            yd = rdm.Next(0, 100);
+            xd = rdm.Next(0, 200);
+            yd = rdm.Next(0, 400);
 
             color = Color.FromArgb(a, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
             brush = new SolidBrush(color);
@@ -107,8 +107,8 @@ namespace drawing
 
         public void update()
         {
-            x += xd/300;
-            y -= yd/100;
+            x += xd/400;
+            y -= yd/400;
             a -= 5;
             if (a >= 0)
             brush = new SolidBrush(Color.FromArgb(a,color.R,color.G,color.B));
