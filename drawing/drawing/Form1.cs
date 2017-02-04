@@ -43,7 +43,7 @@ namespace drawing
                         particles.Add(new particle(this.Width/2,this.Height/2));
             }
             lock (particles)
-                foreach (particle part in particles) part.update();
+                foreach (particle part in particles) part.Update();
             
         }
 
@@ -58,13 +58,13 @@ namespace drawing
                 lock (particles)
                     foreach (particle part in particles)
                     {
-                        if (part.a > 0)
+                        if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.brush, (float) part.x, (float) part.y, 4, 4);
+                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, 4, 4);
                         }
                     }
                 lock (particles)
-                    particles.RemoveAll(part => part.a < 0);
+                    particles.RemoveAll(part => part.A < 0);
             }
             Invalidate();
             Update();
@@ -73,24 +73,23 @@ namespace drawing
         // Button/key handlers
         private void button1_Click(object sender, EventArgs e)
         {
-            if (spawn) spawn = false;
-            else spawn = true;
+            spawn = !spawn;
         }
     }
    
     public class particle
     {
         // The particles coordinates
-        public double x { get; set; }
-        public double y { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
         // Alpha value
-        public int a { get; set; }
+        public int A { get; set; }
         // Change in direction 
-        private double xd;
-        private double yd;
+        private readonly double _xd;
+        private readonly double _yd;
         // Color of the particle
-        public SolidBrush brush { get; set; }
-        private Color color;
+        public SolidBrush Brush { get; set; }
+        private Color _color;
 
         /// <summary>
         /// Constructor for the particle class
@@ -99,26 +98,25 @@ namespace drawing
         /// <param name="y">The starting position on the y-axis</param>
         public particle(int x, int y)
         {
-           
-            this.x = x;
-            this.y = y;
-            this.a = 255;
+            X = x;
+            Y = y;
+            A = 255;
             Random rdm = new Random();
-            xd = rdm.Next(50, 150);
-            yd = rdm.Next(0, 400);
+            _xd = rdm.Next(50, 150);
+            _yd = rdm.Next(0, 400);
 
-            color = Color.FromArgb(a, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
-            brush = new SolidBrush(color);
+            _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
+            Brush = new SolidBrush(_color);
         }
 
 
-        public void update()
+        public void Update()
         {
-            x += xd/500;
-            y -= yd/400;
-            a -= 5;
-            if (a >= 0)
-            brush = new SolidBrush(Color.FromArgb(a,color.R,color.G,color.B));
+            X += _xd/500;
+            Y -= _yd/400;
+            A -= 5;
+            if (A >= 0)
+            Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
         }
 
     }
