@@ -11,8 +11,8 @@ namespace drawing
     public partial class Form1 : Form
     {
         // List containing every particle on screen
-        private List<particle> particles { get; set; } = new List<particle>();
-        private bool spawn = false;
+        private List<Particle> Particles { get; set; } = new List<Particle>();
+        private bool _spawn = false;
 
         public Form1()
         {
@@ -20,12 +20,12 @@ namespace drawing
             InitializeComponent();
 
             // Start the main loop timer
-            System.Timers.Timer timer = new System.Timers.Timer(1000/30);
+            System.Timers.Timer timer = new System.Timers.Timer(1000f/30f);
             timer.Elapsed += Timer_Tick;
             timer.Start();
 
             // set the maximum particle count
-            particles.Capacity = 10000;
+            Particles.Capacity = 10000;
         }
 
         /// <summary>
@@ -36,14 +36,14 @@ namespace drawing
         private void Timer_Tick(object sender, EventArgs e)
         {
 
-            if (spawn)
+            if (_spawn)
             {
-                lock (particles)
-                    for (int i = 0; i < 10; i++)
-                        particles.Add(new particle(this.Width/2,this.Height/2));
+                lock (Particles)
+                    for (var i = 0; i < 1; i++)
+                        Particles.Add(new Particle(this.Width/2,this.Height/2));
             }
-            lock (particles)
-                foreach (particle part in particles) part.Update();
+            lock (Particles)
+                foreach (var part in Particles) part.Update();
             
         }
 
@@ -51,20 +51,22 @@ namespace drawing
         {
             //Anti-aliasing
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-            e.Graphics.DrawString("number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,10);
 
-            if (particles.Any())
+            e.Graphics.DrawString("number of particle's " + Particles.Count, new Font("Arial", 10), Brushes.Black, 10,
+                10);
+
+            if (Particles.Any())
             {
-                lock (particles)
-                    foreach (particle part in particles)
+                lock (Particles)
+                    foreach (var part in Particles)
                     {
                         if (part.A > 0)
                         {
                             e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, 4, 4);
                         }
                     }
-                lock (particles)
-                    particles.RemoveAll(part => part.A < 0);
+                lock (Particles)
+                    Particles.RemoveAll(part => part.A < 0);
             }
             Invalidate();
             Update();
@@ -77,7 +79,7 @@ namespace drawing
         }
     }
    
-    public class particle
+    public class Particle
     {
         // The particles coordinates
         public double X { get; set; }
@@ -96,14 +98,15 @@ namespace drawing
         /// </summary>
         /// <param name="x">The starting position on the x-axis</param>
         /// <param name="y">The starting position on the y-axis</param>
-        public particle(int x, int y)
+        public Particle(int x, int y)
         {
             X = x;
             Y = y;
             A = 255;
-            Random rdm = new Random();
-            _xd = rdm.Next(50, 150);
-            _yd = rdm.Next(0, 400);
+            var rdm = new Random();
+
+            _xd = rdm.Next(0, 100);
+            _yd = rdm.Next(0, 100);
 
             _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
             Brush = new SolidBrush(_color);
