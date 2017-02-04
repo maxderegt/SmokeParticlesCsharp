@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.KeyPreview = true;
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -47,11 +46,10 @@
             this.ClientSize = new System.Drawing.Size(757, 319);
             this.Controls.Add(this.button1);
             this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Timer_Tick);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
 
         }
