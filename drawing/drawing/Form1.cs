@@ -13,7 +13,6 @@ namespace drawing
         // List containing every particle on screen
         private List<Particle> Particles { get; set; } = new List<Particle>();
         private bool _spawn;
-        private int _size = 6;
 
         public Form1()
         {
@@ -41,7 +40,7 @@ namespace drawing
             {
                 lock (Particles)
                     for (var i = 0; i < 1; i++)
-                        Particles.Add(new Particle(Width/2, Height/2));
+                        Particles.Add(new Particle(Width/2, Height/2,8));
             }
             // Update all the particles
             lock (Particles)
@@ -64,7 +63,7 @@ namespace drawing
                     {
                         if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, _size,_size);
+                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size,part.Size);
                         }
                     }
                 // Remove all particles where the alpha is below 0
@@ -88,6 +87,8 @@ namespace drawing
         // The particles coordinates
         public double X { get; set; }
         public double Y { get; set; }
+        // size of the particle
+        public int Size;
         // Alpha value
         public int A { get; set; }
         // Change in direction 
@@ -102,11 +103,12 @@ namespace drawing
         /// </summary>
         /// <param name="x">The starting position on the x-axis</param>
         /// <param name="y">The starting position on the y-axis</param>
-        public Particle(int x, int y)
+        public Particle(int x, int y, int size)
         {
             X = x;
             Y = y;
             A = 255;
+            Size = size;
             var rdm = new Random();
 
             _xd = rdm.Next(50, 100) / 500f;
