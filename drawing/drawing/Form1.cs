@@ -120,7 +120,8 @@ namespace drawing
             this.X = x;
             this.Y = y;
             this.A = 255;
-            Random rdm = new Random();
+            var rdm = new Random();
+
             _xd = rdm.Next(0, 100);
             _yd = rdm.Next(0, 100);
 
