@@ -64,7 +64,7 @@ namespace drawing
                     {
                         if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size, part.Size);
+                            part.Draw(e);
                         }
                     }
                     
@@ -131,6 +131,11 @@ namespace drawing
             {
                 Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
             }
+        }
+
+        public void Draw(PaintEventArgs e)
+        {
+            e.Graphics.FillEllipse(Brush, (float)X, (float)Y, Size, Size);
         }
 
     }
