@@ -79,8 +79,7 @@ namespace drawing
         // Button/key handlers
         private void button1_Click(object sender, EventArgs e)
         {
-            if (_spawn) _spawn = false;
-            else _spawn = true;
+            _spawn = !_spawn;
         }
     }
    
@@ -92,8 +91,8 @@ namespace drawing
         // Alpha value
         public int A { get; set; }
         // Change in direction 
-        private double _xd;
-        private double _yd;
+        private readonly double _xd;
+        private readonly double _yd;
         // Color of the particle
         public SolidBrush Brush { get; set; }
         private Color _color;
@@ -120,8 +119,8 @@ namespace drawing
 
         public void Update()
         {
-            X += _xd/300;
-            Y -= _yd/100;
+            X += _xd/500;
+            Y -= _yd/400;
             A -= 5;
             if (A >= 0)
             Brush = new SolidBrush(Color.FromArgb(A,_color.R,_color.G,_color.B));
