@@ -26,15 +26,6 @@ namespace drawing
 
             // set the maximum particle count
             particles.Capacity = 10000;
-<<<<<<< HEAD
-
-            // Initialize the player(particle origin)
-            player = new Player(10,10);
-
-            Color clr = Color.Red;
-            brush = new SolidBrush(clr);
-=======
->>>>>>> 34828f31929b78bdaf136e0a4907e977b19d5883
         }
 
         /// <summary>
@@ -60,15 +51,9 @@ namespace drawing
         {
             //Anti-aliasing
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-<<<<<<< HEAD
+            e.Graphics.DrawString("number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,10);
 
-            e.Graphics.DrawString(pressed.Count+" number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,
-=======
-            e.Graphics.DrawString("number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,
->>>>>>> 34828f31929b78bdaf136e0a4907e977b19d5883
-                10);
-
-            if (particles.Count() > 0)
+            if (particles.Any())
             {
                 lock (particles)
                     foreach (particle part in particles)
@@ -92,20 +77,6 @@ namespace drawing
             else spawn = true;
         }
     }
-
-    public class Player
-    {
-        public double x { get; set; } = 0;
-        public double y { get; set; } = 0;
-        public int size { get; set; } = 16;
-
-        public Player(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
    
     public class particle
     {
@@ -133,7 +104,7 @@ namespace drawing
             this.y = y;
             this.a = 255;
             Random rdm = new Random();
-            xd = rdm.Next(0, 200);
+            xd = rdm.Next(50, 150);
             yd = rdm.Next(0, 400);
 
             color = Color.FromArgb(a, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
@@ -143,7 +114,7 @@ namespace drawing
 
         public void update()
         {
-            x += xd/400;
+            x += xd/500;
             y -= yd/400;
             a -= 5;
             if (a >= 0)
