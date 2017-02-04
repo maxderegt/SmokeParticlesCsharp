@@ -12,10 +12,7 @@ namespace drawing
     {
         // List containing every particle on screen
         private List<particle> particles { get; set; } = new List<particle>();
-        private List<Keys> pressed = new List<Keys>();
         private bool spawn = false;
-        private Player player;
-        private SolidBrush brush;
 
         public Form1()
         {
@@ -29,12 +26,15 @@ namespace drawing
 
             // set the maximum particle count
             particles.Capacity = 10000;
+<<<<<<< HEAD
 
             // Initialize the player(particle origin)
             player = new Player(10,10);
 
             Color clr = Color.Red;
             brush = new SolidBrush(clr);
+=======
+>>>>>>> 34828f31929b78bdaf136e0a4907e977b19d5883
         }
 
         /// <summary>
@@ -49,39 +49,23 @@ namespace drawing
             {
                 lock (particles)
                     for (int i = 0; i < 1; i++)
-                        particles.Add(new particle((int)player.x,(int)player.y));
+                        particles.Add(new particle(this.Width/2,this.Height/2));
             }
             lock (particles)
                 foreach (particle part in particles) part.update();
-            lock (player)
-            {
-                foreach (Keys key in pressed)
-                {
-                    switch (key)
-                    {
-                        case Keys.W:
-                            player.y--;
-                            break;
-                        case Keys.A:
-                            player.x--;
-                            break;
-                        case Keys.S:
-                            player.y++;
-                            break;
-                        case Keys.D:
-                            player.x++;
-                            break;
-                    }
-                }
-            }
+            
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             //Anti-aliasing
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+<<<<<<< HEAD
 
             e.Graphics.DrawString(pressed.Count+" number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,
+=======
+            e.Graphics.DrawString("number of particle's " + particles.Count, new Font("Arial", 10), Brushes.Black, 10,
+>>>>>>> 34828f31929b78bdaf136e0a4907e977b19d5883
                 10);
 
             if (particles.Count() > 0)
@@ -97,9 +81,6 @@ namespace drawing
                 lock (particles)
                     particles.RemoveAll(part => part.a < 0);
             }
-            lock(player)
-                e.Graphics.FillEllipse(brush,(int)(player.x-player.size/2),(int)(player.y-player.size/2),player.size,player.size);
-
             Invalidate();
             Update();
         }
@@ -109,18 +90,6 @@ namespace drawing
         {
             if (spawn) spawn = false;
             else spawn = true;
-        }
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(!pressed.Contains(e.KeyCode))
-            pressed.Add(e.KeyCode);
-        }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            if(pressed.Contains(e.KeyCode))
-            pressed.Remove(e.KeyCode);
         }
     }
 
@@ -164,8 +133,8 @@ namespace drawing
             this.y = y;
             this.a = 255;
             Random rdm = new Random();
-            xd = rdm.Next(0, 200) - 100;
-            yd = rdm.Next(0, 200) - 100;
+            xd = rdm.Next(0, 100);
+            yd = rdm.Next(0, 100);
 
             color = Color.FromArgb(a, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
             brush = new SolidBrush(color);
@@ -174,8 +143,8 @@ namespace drawing
 
         public void update()
         {
-            x += xd/500;
-            y += yd/500;
+            x += xd/300;
+            y -= yd/100;
             a -= 5;
             if (a >= 0)
             brush = new SolidBrush(Color.FromArgb(a,color.R,color.G,color.B));
