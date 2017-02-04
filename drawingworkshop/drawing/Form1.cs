@@ -67,8 +67,7 @@ namespace drawing
                             e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size, part.Size);
                         }
                     }
-                    // Remove all particles where the alpha is below 0
-                   Particles.RemoveAll(part => part.A < 0);
+                    
                 }
             }
 
@@ -114,7 +113,7 @@ namespace drawing
             Size = size;
             var rdm = new Random();
 
-            _xd = rdm.Next(100, 500) / 500f;
+            _xd = rdm.Next(100, 500) / 500f + 0.1;
             _yd = rdm.Next(300, 400) / 400f;
 
             _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
@@ -127,8 +126,6 @@ namespace drawing
         /// </summary>
         public void Update()
         {
-            X += (_xd + 0.5);
-            Y -= (_yd);
             A -= 1;
             if (A >= 0)
             {
