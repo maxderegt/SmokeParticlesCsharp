@@ -35,13 +35,14 @@ namespace drawing
         /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
-
+            // Spawn particles
             if (_spawn)
             {
                 lock (Particles)
                     for (var i = 0; i < 1; i++)
                         Particles.Add(new Particle(this.Width/2,this.Height/2));
             }
+            // Update all the particles
             lock (Particles)
                 foreach (var part in Particles) part.Update();
             
@@ -55,6 +56,7 @@ namespace drawing
             e.Graphics.DrawString("number of particle's " + Particles.Count, new Font("Arial", 10), Brushes.Black, 10,
                 10);
 
+            // if the particles list has any particles
             if (Particles.Any())
             {
                 lock (Particles)
@@ -65,9 +67,11 @@ namespace drawing
                             e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, 4, 4);
                         }
                     }
+                // Remove all particles where the alpha is below 0
                 lock (Particles)
                     Particles.RemoveAll(part => part.A < 0);
             }
+            // Update/Refresh the form
             Invalidate();
             Update();
         }
