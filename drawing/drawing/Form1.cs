@@ -26,7 +26,6 @@ namespace drawing
 
             // set the maximum particle count
             Particles.Capacity = 10000;
-
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace drawing
             e.Graphics.DrawString("number of particle's " + Particles.Count, new Font("Arial", 10), Brushes.Black, 10,
                 10);
 
-            if (Particles.Count() > 0)
+            if (Particles.Any())
             {
                 lock (Particles)
                     foreach (var part in Particles)
@@ -80,20 +79,6 @@ namespace drawing
             else _spawn = true;
         }
     }
-
-    public class Player
-    {
-        public double x { get; set; } = 0;
-        public double y { get; set; } = 0;
-        public int size { get; set; } = 16;
-
-        public Player(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
    
     public class Particle
     {
@@ -116,10 +101,9 @@ namespace drawing
         /// <param name="y">The starting position on the y-axis</param>
         public Particle(int x, int y)
         {
-           
-            this.X = x;
-            this.Y = y;
-            this.A = 255;
+            X = x;
+            Y = y;
+            A = 255;
             var rdm = new Random();
 
             _xd = rdm.Next(0, 100);
