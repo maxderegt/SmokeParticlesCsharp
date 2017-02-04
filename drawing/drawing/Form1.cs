@@ -55,21 +55,23 @@ namespace drawing
                 10);
 
             // if the particles list has any particles
-            if (Particles.Any())
+            lock (Particles)
             {
-                // Draw every particle
-                lock (Particles)
-                    foreach (var part in Particles)
+                if (Particles.Any())
+                {
+                    // Draw every particle
+                   foreach (var part in Particles)
                     {
                         if (part.A > 0)
                         {
-                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size,part.Size);
+                            e.Graphics.FillEllipse(part.Brush, (float) part.X, (float) part.Y, part.Size, part.Size);
                         }
                     }
-                // Remove all particles where the alpha is below 0
-                lock (Particles)
-                    Particles.RemoveAll(part => part.A < 0);
+                    // Remove all particles where the alpha is below 0
+                   Particles.RemoveAll(part => part.A < 0);
+                }
             }
+
             // Update/Refresh the form
             Invalidate();
             Update();
