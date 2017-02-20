@@ -69,6 +69,8 @@ namespace drawing
                     }
                     
                 }
+                //Hier moeten alle particle's worden verwijderd
+
             }
 
             // Update/Refresh the form
@@ -116,7 +118,7 @@ namespace drawing
             _xd = rdm.Next(100, 500) / 500f + 0.1;
             _yd = rdm.Next(300, 400) / 400f;
 
-            _color = Color.FromArgb(A, rdm.Next(0, 255), rdm.Next(0, 255), rdm.Next(0, 255));
+            _color = Color.FromArgb(A, 255,0,100);
             Brush = new SolidBrush(_color);
         }
 
@@ -126,6 +128,11 @@ namespace drawing
         /// </summary>
         public void Update()
         {
+            /*
+             * Hier moet de particle worden verplaatst
+             * de X en Y as
+             */
+
             A -= 1;
             if (A >= 0)
             {

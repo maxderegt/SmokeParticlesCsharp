@@ -130,8 +130,8 @@ namespace drawing
         /// </summary>
         public void Update()
         {
-            X += (_xd + 0.5);
-            Y -= (_yd);
+            X += _xd;
+            Y -= _yd;
             A -= 1;
             if (A >= 0)
             {
